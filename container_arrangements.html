@@ -3,7 +3,7 @@
 
 <head>
 	<!-- Load the Paper.js library -->
-	<script type="text/javascript" src="dist/paper-core.min.js"></script>
+	<script type="text/javascript" src="dist/paper-full.min.js"></script>
 	<!-- Define inlined PaperScript associate it with myCanvas -->
 	<script type="text/javascript">
 		var arrangements = {};
@@ -57,12 +57,22 @@
 			draw_item(0, 0, w, h, 'grey')
 		}
 		function draw_box(x, y, w, h) {
-			draw_item(x, y, w, h, 'salmon')
+			draw_item(x, y, w, h, boxGradient(x, y, w, h))
+		}
+
+		function boxGradient(x, y, w, h) {
+			return {
+				gradient: {
+					stops: ['salmon', 'pink']
+				},
+				origin: new paper.Point(x, y),
+				destination: new paper.Point(x + w, y + h)
+			}
 		}
 
 		window.onload = function () {
 			// add some JSON-encoded arrangements to specific canvases:
-			add_arrangement('myCanvas1', '{ "container":{ "w":1000, "h":400 } , "boxes":[{"x":0, "y":0, "w":1000, "h":100}, {"x":10, "y":90, "w":500, "h":300}]}');
+			add_arrangement('myCanvas1', '{ "container":{ "w":1000, "h":400 } , "boxes":[{"x":0, "y":0, "w":1000, "h":100}, {"x":10, "y":90, "w":500, "h":300}, {"x":510, "y":100, "w":100, "h":300}, {"x":600, "y":90, "w":200, "h":200}, {"x":800, "y":90, "w":200, "h":300}]}');
 
 			// draw the saved arrangements onto the canvases:
 			draw_arrangements();
