@@ -10,4 +10,6 @@ Note that overlaps are highlighted via box transparency.
 
 ## How to use
 
-Unpack or clone [paper.js](http://paperjs.org/) and add `container_arrangements.html` to the paper.js root folder.
+- Unpack or clone [paper.js](http://paperjs.org/).
+- Add `container_arrangements.html` to the paper.js root folder.
+- Test it in your browser and adapt it to your needs.
