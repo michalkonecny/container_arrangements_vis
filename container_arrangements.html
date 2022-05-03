@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- Load the Paper.js library -->
+	<script type="text/javascript" src="dist/paper-core.min.js"></script>
+	<!-- Define inlined PaperScript associate it with myCanvas -->
+	<script type="text/javascript">
+		window.onload = function () {
+			function item(x, y, w, h, c) {
+				const r1 = new paper.Rectangle(x, y, w, h);
+				const p1 = new paper.Path.Rectangle(r1, new paper.Size(2, 2));
+				p1.strokeColor = 'black';
+				p1.strokeWidth = 2;
+				p1.fillColor = c;
+				p1.opacity = 0.5;
+			}
+			function container(w, h) {
+				item(0, 0, w, h, 'grey')
+			}
+			function box(x, y, w, h) {
+				item(x, y, w, h, 'salmon')
+			}
+
+			var arrangements = {};
+
+			function add_arrangement(canvas_name, json) {
+				const obj = JSON.parse(json);
+				arrangements[canvas_name] = obj;
+			}
+
+			function draw_arrangements() {
+				for (const key in arrangements) {
+					draw_arrangement(key, arrangements[key]);
+				}
+			}
+
+			function draw_arrangement(canvas_name, obj) {
+
+				// Get a reference to the canvas object:
+				const canvas = document.getElementById(canvas_name);
+				// Create an empty project and a view for the canvas:
+				paper.setup(canvas);
+
+				// draw the arrangement on the canvas:
+				const cont = obj.container;
+				const boxes = obj.boxes;
+
+				// scale the canvas coordinates to fit the container width:
+				viewW = paper.view.viewSize.width;
+				paper.view.matrix.scale(viewW/cont.w);
+				// adjust canvas height to the container height:
+				paper.view.viewSize.height = cont.h*viewW/cont.w;
+
+				container(cont.w, cont.h);
+				for (const b of boxes) {
+					box(b.x, b.y, b.w, b.h)
+				}
+
+				// Draw the view now:
+				paper.view.draw();
+			}
+
+			// add some arrangements linked to specific canvases:
+			add_arrangement('myCanvas1', '{ "container":{ "w":1000, "h":400 } , "boxes":[{"x":0, "y":0, "w":1000, "h":100}, {"x":10, "y":90, "w":500, "h":300}]}');
+
+			// add_arrangement('myCanvas2', '{ "container":{ "w":1000, "h":400 } , "boxes":[{"x":0, "y":0, "w":1000, "h":100}] }');
+
+			// draw the saved arrangements onto the canvases:
+			draw_arrangements();
+
+			// An example of drawing the arrangement directly in JS:
+			function draw_sample_arrangement(canvas_name) {
+				// Get a reference to the canvas object:
+				const canvas = document.getElementById(canvas_name);
+				// Create an empty project and a view for the canvas:
+				paper.setup(canvas);
+
+				container(1000, 400);
+				box(0, 0, 1000, 100);
+				box(0, 110, 1000, 100);
+				box(0, 200, 100, 200);
+				box(100, 200, 600, 200);
+				box(700, 200, 100, 200);
+				box(780, 200, 200, 200);
+
+				// Draw the view now:
+				paper.view.draw();
+			}
+
+			// draw_sample_arrangement("myCanvas2");
+		}
+	</script>
+</head>
+
+<body>
+	<canvas id="myCanvas1" width="1000px"></canvas>
+	<!-- <canvas id="myCanvas2" width="1000px" height="500px"></canvas> -->
+</body>
+
+</html>

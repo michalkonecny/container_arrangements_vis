@@ -1,0 +1,6 @@
+# hide paper.js files
+paperjs-*.zip
+LICENSE.txt
+/dist
+/examples
+/docs
